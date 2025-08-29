@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameStore - Ігри та Акаунти</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>GameStore - Игры и Аккаунты</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-dark: #3a0ca3; /* Deep Purple */
+            --secondary-accent: #4361ee; /* Royal Blue */
+            --text-light: #e0e0e0;
+            --text-dark: #cccccc;
+            --bg-dark-start: #1a003f; /* Very dark purple */
+            --bg-dark-end: #0f002d;   /* Even darker purple */
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --shadow-strong: rgba(0, 0, 0, 0.5);
+            --success-color: #2ecc71; /* Green for success/price */
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,26 +27,38 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(145deg, var(--bg-dark-start), var(--bg-dark-end));
+            background-size: 400% 400%;
+            animation: gradientAnimation 20s ease infinite;
+            color: var(--text-light);
             min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 25px;
         }
 
         /* Header */
         .header {
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(25px);
             padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-subtle);
+            box-shadow: 0 4px 20px var(--shadow-strong);
         }
 
         .nav {
@@ -42,26 +68,50 @@
         }
 
         .logo {
+            font-family: 'Montserrat', sans-serif;
             font-size: 1.8rem;
-            font-weight: bold;
+            font-weight: 700;
             color: white;
             text-decoration: none;
+            text-shadow: 0 0 10px var(--primary-dark);
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.03);
+            color: var(--secondary-accent);
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links a {
-            color: white;
+            color: var(--text-dark);
             text-decoration: none;
-            transition: color 0.3s;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
         }
-
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--secondary-accent);
+            transition: width 0.4s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+            background: var(--primary-dark);
+        }
         .nav-links a:hover {
-            color: #ffd700;
+            color: white;
         }
 
         .cart-icon {
@@ -69,90 +119,168 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .cart-icon:hover {
+            color: var(--secondary-accent);
+            transform: scale(1.1);
         }
 
         .cart-count {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: #ff4757;
+            background: var(--primary-dark);
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(58, 12, 163, 0.6);
         }
-
-        /* Hero Section */
+        
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 4rem 0;
-            color: white;
+            padding: 6rem 0;
+            background: url('https://source.unsplash.com/random/1600x900/?gaming,abstract,purple') no-repeat center center/cover;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 1;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(3px);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 2.5rem 3.5rem;
+            display: inline-block;
+            animation: fadeIn 1s ease-out;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--primary-dark), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
 
         .hero p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            color: var(--text-dark);
         }
 
-        /* Categories */
+        /* Search */
+        .search-input {
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 50px;
+            width: 400px;
+            max-width: 90%;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 5px var(--shadow-strong);
+        }
+
+        .search-input::placeholder { color: #888; }
+        .search-input:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.5), inset 0 2px 8px var(--shadow-strong);
+            border-color: var(--secondary-accent);
+        }
+        
+        /* Categories Section */
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin: 3rem 0;
+            margin-top: 4rem; /* Adjusted for placement below hero */
+            margin-bottom: 5rem;
         }
 
         .category-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
-            color: white;
+            backdrop-filter: blur(12px);
             cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            box-shadow: 0 10px 30px var(--shadow-strong);
         }
 
         .category-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow-strong);
+            border-color: var(--secondary-accent);
+        }
+
+        .category-card.active {
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 25px rgba(58, 12, 163, 0.5);
+            transform: translateY(-4px);
         }
 
         .category-card i {
             font-size: 3rem;
             margin-bottom: 1rem;
-            color: #ffd700;
+            color: var(--secondary-accent);
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
         }
 
         .category-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.4rem;
         }
 
-        /* Products */
-        .products-section {
-            margin: 4rem 0;
+        .category-card p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 0;
         }
 
         .section-title {
             text-align: center;
             color: white;
-            font-size: 2.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
             margin-bottom: 3rem;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+            transition: opacity 0.5s ease;
         }
 
+        /* Products */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -160,608 +288,525 @@
         }
 
         .product-card {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 35px var(--shadow-strong), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 20px 50px var(--shadow-strong), 0 0 0 1px var(--secondary-accent);
         }
-
+        
         .product-image {
             height: 200px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 3rem;
+            font-size: 5rem;
+            background: linear-gradient(45deg, var(--primary-dark), var(--secondary-accent));
+            border-bottom: 1px solid var(--border-subtle);
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
         }
 
         .product-info {
             padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-title {
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: white;
+        }
+        
+        .product-description {
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
         }
 
         .product-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 1rem;
-        }
-
-        .product-description {
-            color: #666;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 1.2rem;
+            align-self: flex-start;
         }
 
         .add-to-cart-btn {
             width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--success-color);
             color: white;
             border: none;
             padding: 0.8rem;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .add-to-cart-btn:hover {
             opacity: 0.9;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
+            transform: translateY(-2px);
         }
 
         .add-to-cart-btn:disabled {
-            background: #ccc;
+            background: #555;
             cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.6;
         }
 
-        /* Cart Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .cart-total {
-            font-size: 1.5rem;
-            font-weight: bold;
+        /* Filter Controls */
+        .filter-controls {
             text-align: center;
-            margin: 1rem 0;
+            margin-bottom: 3rem;
         }
-
-        .checkout-btn {
-            width: 100%;
-            background: #27ae60;
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-dark);
+            padding: 0.7rem 1.5rem;
+            margin: 0 8px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            background: var(--secondary-accent);
+            border-color: var(--secondary-accent);
             color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
+        }
+        .filter-btn.active {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            color: white;
+            box-shadow: 0 0 15px rgba(58, 12, 163, 0.5);
         }
 
-        .checkout-btn:hover {
-            background: #219a52;
-        }
-
-        /* Search */
-        .search-container {
+        /* Info Sections (About & Support) */
+        .info-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            padding: 3rem;
+            border-radius: 20px;
             text-align: center;
-            margin: 2rem 0;
+            box-shadow: 0 12px 35px var(--shadow-strong);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin-bottom: 3rem; /* Spacing between info sections */
         }
-
-        .search-input {
-            padding: 1rem;
-            border: none;
-            border-radius: 25px;
-            width: 300px;
+        .info-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 45px var(--shadow-strong), 0 0 0 1px var(--primary-dark);
+        }
+        
+        .info-section i {
+            font-size: 3.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--secondary-accent);
+            text-shadow: 0 0 18px rgba(67, 97, 238, 0.7);
+        }
+        .info-section p {
             font-size: 1rem;
-            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
         }
-
-        .search-input:focus {
-            outline: none;
-            background: white;
+        .info-section a {
+            color: var(--secondary-accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .info-section a:hover {
+            color: white;
+            text-decoration: underline;
         }
 
         /* Footer */
         .footer {
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-dark);
             text-align: center;
             padding: 2rem 0;
             margin-top: 4rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1001;
+            align-items: center; justify-content: center;
+        }
+        .modal.show { display: flex; animation: fadeIn 0.3s ease-out; }
+        
+        .modal-content {
+            background: linear-gradient(135deg, rgba(26, 0, 63, 0.95), rgba(15, 0, 45, 0.95));
+            border-radius: 20px; padding: 2rem;
+            width: 95%; max-width: 650px;
+            max-height: 90vh; overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px var(--shadow-strong), 0 0 0 1px var(--primary-dark);
+            animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .modal-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: white; margin-bottom: 1.2rem;
+            font-size: 2rem; text-align: center;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .search-input {
-                width: 250px;
-            }
+        #cartItems div {
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1rem;
         }
+        #cartItems div:last-child { border-bottom: none; }
+        #cartItems p { text-align: center; font-size: 1.1rem; color: #999; padding: 1.5rem 0; }
+
+        #cartTotal {
+            font-size: 1.6rem; text-align: right; margin-top: 1.5rem;
+            font-weight: bold; color: var(--success-color);
+        }
+        
+        .close {
+            position: absolute; top: 15px; right: 20px;
+            font-size: 2.2rem; cursor: pointer; color: #ccc;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .close:hover { color: white; transform: rotate(90deg); }
 
         /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero p { font-size: 1rem; }
+            .nav-links { display: none; } /* Hamburger menu for mobile could be added here */
+            .search-input { width: 100%; padding: 0.8rem; font-size: 0.9rem;}
+            .section-title { font-size: 2.2rem; }
+            .product-card { padding: 1rem; }
+            .product-title { font-size: 1.2rem; }
+            .product-price { font-size: 1.5rem; }
+            .info-section { padding: 2rem; }
+            .logo { font-size: 1.6rem; }
+            .cart-icon { font-size: 1.3rem; }
+            .modal-content { padding: 1.5rem; }
+            .modal-content h2 { font-size: 1.6rem; }
+            .categories { grid-template-columns: 1fr; }
         }
 
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        /* Success message */
-        .success-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #27ae60;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            z-index: 1001;
-            transform: translateX(100%);
-            transition: transform 0.3s;
-        }
-
-        .success-message.show {
-            transform: translateX(0);
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero-content { padding: 2rem 1.5rem; }
+            .section-title { font-size: 1.8rem; }
+            .product-image { height: 160px; font-size: 4rem; }
+            .product-price { font-size: 1.3rem; }
+            .add-to-cart-btn { font-size: 0.9rem; padding: 0.7rem; }
+            .filter-btn { margin: 0 5px; padding: 0.6rem 1rem; font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="#" class="logo">🎮 GameStore</a>
+        <div class="container nav">
+            <a href="#" class="logo">🎮 GameStore</a>
+            <nav>
                 <ul class="nav-links">
-                    <li><a href="#games">Ігри</a></li>
-                    <li><a href="#accounts">Акаунти</a></li>
-                    <li><a href="#contact">Контакти</a></li>
+                    <li><a href="#products">Товары</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#support">Поддержка</a></li>
                 </ul>
-                <div class="cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cartCount">0</span>
-                </div>
             </nav>
+            <div class="cart-icon" onclick="toggleModal('cartModal')">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>GameStore</h1>
+                <p>Лучшие игры и аккаунты по выгодным ценам</p>
+                <input type="text" class="search-input" placeholder="Найти игру или аккаунт..." oninput="searchProducts(this.value)">
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="categories">
+                <div class="category-card" id="cat-games" onclick="filterByCategory('games')">
+                    <i class="fas fa-gamepad" style="color: gold;"></i>
+                    <h3>Игры</h3>
+                    <p>Самые популярные игры для разных платформ</p>
+                </div>
+                <div class="category-card" id="cat-accounts" onclick="filterByCategory('accounts')">
+                    <i class="fas fa-user-circle" style="color: orange;"></i>
+                    <h3>Аккаунты</h3>
+                    <p>Готовые аккаунты с прокачкой и бонусами</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="container section">
+            <div class="filter-controls">
+                <button class="filter-btn active" id="btn-all" onclick="filterByCategory('all')">Все товары</button>
+            </div>
+            <h2 class="section-title" id="products-title">Популярные Товары</h2>
+            <div class="products-grid" id="productsGrid"></div>
+        </section>
+
+        <section id="about" class="container section">
+            <div class="info-section">
+                <i class="fas fa-info-circle"></i>
+                <h2 class="section-title">О Нас</h2>
+                <p>GameStore — это страсть к играм, воплощенная в надежном сервисе. Мы - команда энтузиастов, которая стремится предоставить геймерам со всего мира легкий доступ к любимым играм и уникальным аккаунтам. Наша миссия — построить сообщество, где каждый найдет что-то для себя, будь то новинка игровой индустрии или желанный аккаунт с историей.</p>
+                <p style="margin-top: 15px;">Мы гордимся нашей репутацией надежного поставщика, гарантируя безопасность каждой транзакции и мгновенную доставку. Присоединяйтесь к нам, чтобы открыть для себя мир безграничных игровых приключений!</p>
+            </div>
+        </section>
+
+        <section id="support" class="container section">
+            <div class="info-section">
+                <i class="fas fa-life-ring"></i>
+                <h2 class="section-title">Поддержка 24/7</h2>
+                <p>Возникли вопросы? Нужна помощь с заказом или аккаунтом? Наша команда поддержки готова прийти на помощь в любое время, 24 часа в сутки, 7 дней в неделю.</p>
+                <p style="margin-top: 10px;">Свяжитесь с нами удобным для вас способом:</p>
+                <p style="margin-top: 10px; font-weight: bold;"><a href="mailto:support@gamestore.pro">support@gamestore.pro</a></p>
+                <p style="font-weight: bold;"><a href="https://t.me/gamestore_support" target="_blank">@gamestore_support</a></p>
+                <p style="margin-top: 15px;">Мы здесь, чтобы обеспечить вам лучший игровой опыт!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
         <div class="container">
-            <h1 class="fade-in">GameStore</h1>
-            <p class="fade-in">Найкращі ігри та акаунти за доступними цінами</p>
-            
-            <!-- Search -->
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Знайти ігру або акаунт..." 
-                       oninput="searchProducts(this.value)">
-            </div>
+            <p>&copy; 2025 GameStore. Все права защищены. Создано с ❤️ для геймеров.</p>
         </div>
-    </section>
-
-    <!-- Categories -->
-    <section class="container">
-        <div class="categories">
-            <div class="category-card fade-in" onclick="showCategory('games')">
-                <i class="fas fa-gamepad"></i>
-                <h3>Ігри</h3>
-                <p>Найпопулярніші ігри для різних платформ</p>
-            </div>
-            <div class="category-card fade-in" onclick="showCategory('accounts')">
-                <i class="fas fa-user-circle"></i>
-                <h3>Акаунти</h3>
-                <p>Готові акаунти з прокачкою та бонусами</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products-section" id="products">
-        <div class="container">
-            <h2 class="section-title">Популярні товари</h2>
-            <div class="products-grid" id="productsGrid">
-                <!-- Products will be loaded here by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Cart Modal -->
+    </footer>
+    
     <div class="modal" id="cartModal">
         <div class="modal-content">
-            <span class="close" onclick="toggleCart()">&times;</span>
-            <h2>🛒 Ваш кошик</h2>
+            <span class="close" onclick="toggleModal('cartModal')">&times;</span>
+            <h2>🛒 Ваша корзина</h2>
             <div id="cartItems"></div>
-            <div class="cart-total" id="cartTotal">Всього: $0.00</div>
-            <button class="checkout-btn" onclick="checkout()">
-                <i class="fas fa-credit-card"></i> Оформити замовлення
+            <div id="cartTotal"></div>
+            <button class="add-to-cart-btn" onclick="checkout()" style="margin-top: 2rem;">
+                <i class="fas fa-cash-register"></i> Оформить заказ
             </button>
         </div>
     </div>
 
-    <!-- Success Message -->
-    <div class="success-message" id="successMessage"></div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 GameStore. Всі права захищені.</p>
-            <p>📧 support@gamestore.ua | 📞 +380 (50) 123-4567</p>
-        </div>
-    </footer>
-
     <script>
-        // Sample products data
         const products = [
-            // Games
-            {
-                id: 1,
-                name: "Cyberpunk 2077",
-                price: 29.99,
-                category: "games",
-                description: "Футуристична RPG в світі Night City",
-                image: "🚀",
-                inStock: true
-            },
-            {
-                id: 2,
-                name: "The Witcher 3",
-                price: 19.99,
-                category: "games", 
-                description: "Епічна фентезійна пригода",
-                image: "⚔️",
-                inStock: true
-            },
-            {
-                id: 3,
-                name: "GTA V",
-                price: 24.99,
-                category: "games",
-                description: "Відкритий світ Los Santos",
-                image: "🏎️",
-                inStock: true
-            },
-            {
-                id: 4,
-                name: "Minecraft",
-                price: 15.99,
-                category: "games",
-                description: "Безмежні можливості творчості",
-                image: "🟫",
-                inStock: true
-            },
-            {
-                id: 5,
-                name: "Call of Duty",
-                price: 39.99,
-                category: "games",
-                description: "Військовий шутер від першої особи",
-                image: "🔫",
-                inStock: false
-            },
-            {
-                id: 6,
-                name: "FIFA 2025",
-                price: 49.99,
-                category: "games",
-                description: "Найреалістичніший футбольний симулятор",
-                image: "⚽",
-                inStock: true
-            },
-            // Accounts
-            {
-                id: 7,
-                name: "Steam Акаунт (Level 50)",
-                price: 75.00,
-                category: "accounts",
-                description: "Акаунт з 200+ іграми та високим рівнем",
-                image: "🎮",
-                inStock: true
-            },
-            {
-                id: 8,
-                name: "Fortnite Акаунт (Rare Skins)",
-                price: 45.00,
-                category: "accounts",
-                description: "Акаунт з рідкісними скінами та емотами",
-                image: "🌟",
-                inStock: true
-            },
-            {
-                id: 9,
-                name: "WoW Акаунт (Max Level)",
-                price: 120.00,
-                category: "accounts",
-                description: "Максимальний рівень всіх класів",
-                image: "🐉",
-                inStock: true
-            },
-            {
-                id: 10,
-                name: "CS2 Акаунт (Global Elite)",
-                price: 89.99,
-                category: "accounts",
-                description: "Найвищий ранг в Counter-Strike 2",
-                image: "🎯",
-                inStock: false
-            },
-            {
-                id: 11,
-                name: "League of Legends (Diamond)",
-                price: 65.00,
-                category: "accounts",
-                description: "Diamond ранг з рідкісними скінами",
-                image: "💎",
-                inStock: true
-            },
-            {
-                id: 12,
-                name: "Valorant Акаунт (Radiant)",
-                price: 95.00,
-                category: "accounts",
-                description: "Найвищий ранг Radiant",
-                image: "🔥",
-                inStock: true
-            }
+            { id: 1, name: "Cyberpunk 2077", price: 29.99, category: "games", description: "Футуристическая RPG в мире Night City. Исследуйте огромный открытый мир, выполняйте квесты и стройте свою легенду.", image: "🚀", inStock: true },
+            { id: 2, name: "The Witcher 3: Wild Hunt", price: 19.99, category: "games", description: "Эпическое фэнтезийное приключение, где вы играете за Геральта из Ривии, охотника на монстров.", image: "⚔️", inStock: true },
+            { id: 3, name: "Grand Theft Auto V", price: 24.99, category: "games", description: "Открытый мир Los Santos ждёт вас. Три главных героя, множество миссий и бесконечные возможности.", image: "🏎️", inStock: true },
+            { id: 4, name: "Minecraft", price: 15.99, category: "games", description: "Безграничные возможности для творчества и исследования в пиксельном мире.", image: "🧱", inStock: true },
+            { id: 5, name: "Call of Duty: Modern Warfare III", price: 39.99, category: "games", description: "Современный военный шутер с захватывающей кампанией и динамичным мультиплеером.", image: "🔫", inStock: false },
+            { id: 6, name: "FIFA 2025", price: 49.99, category: "games", description: "Самый реалистичный симулятор футбола с обновленными командами и улучшенной графикой.", image: "⚽", inStock: true },
+            { id: 7, name: "Аккаунт Steam (Уровень 50)", price: 75.00, category: "accounts", description: "Аккаунт Steam с более чем 200 играми в библиотеке и высоким уровнем профиля.", image: "🎮", inStock: true },
+            { id: 8, name: "Аккаунт Fortnite (Редкие скины)", price: 45.00, category: "accounts", description: "Аккаунт Fortnite с эксклюзивными и редкими скинами, а также множеством эмоций.", image: "🌟", inStock: true },
+            { id: 9, name: "Аккаунт World of Warcraft (Max Level)", price: 120.00, category: "accounts", description: "Аккаунт WoW с персонажами максимального уровня, готовыми к рейдам и PvP.", image: "🐉", inStock: true },
+            { id: 10, name: "Аккаунт CS2 (Global Elite)", price: 89.99, category: "accounts", description: "Аккаунт Counter-Strike 2 с высшим рангом Global Elite и уникальными скинами.", image: "🎯", inStock: false },
         ];
 
         let cart = [];
         let currentCategory = 'all';
         let searchTerm = '';
 
-        // Initialize the page
-        function init() {
-            displayProducts();
-            updateCartUI();
-        }
-
-        // Display products
-        function displayProducts() {
+        function renderProducts() {
             const grid = document.getElementById('productsGrid');
-            let filteredProducts = products;
+            let productsToDisplay = products;
 
-            // Filter by category
             if (currentCategory !== 'all') {
-                filteredProducts = filteredProducts.filter(p => p.category === currentCategory);
+                productsToDisplay = productsToDisplay.filter(p => p.category === currentCategory);
             }
 
-            // Filter by search term
             if (searchTerm) {
-                filteredProducts = filteredProducts.filter(p => 
-                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                productsToDisplay = productsToDisplay.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                     p.description.toLowerCase().includes(searchTerm.toLowerCase())
                 );
             }
-
-            grid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card fade-in">
+            
+            grid.innerHTML = productsToDisplay.map(product => `
+                <div class="product-card">
                     <div class="product-image">${product.image}</div>
                     <div class="product-info">
-                        <div class="product-title">${product.name}</div>
-                        <div class="product-price">$${product.price.toFixed(2)}</div>
-                        <div class="product-description">${product.description}</div>
-                        <button class="add-to-cart-btn" 
-                                onclick="addToCart(${product.id})" 
-                                ${!product.inStock ? 'disabled' : ''}>
-                            ${product.inStock ? 
-                              '<i class="fas fa-cart-plus"></i> Додати в кошик' : 
-                              '❌ Немає в наявності'}
-                        </button>
+                        <div>
+                            <div class="product-title">${product.name}</div>
+                            <p class="product-description">${product.description}</p>
+                        </div>
+                        <div>
+                            <div class="product-price">$${product.price.toFixed(2)}</div>
+                            <button class="add-to-cart-btn" 
+                                    onclick="event.stopPropagation(); addToCart(${product.id})" 
+                                    ${!product.inStock ? 'disabled' : ''}>
+                                ${product.inStock ? '<i class="fas fa-cart-plus"></i> В корзину' : '<i class="fas fa-times-circle"></i> Нет в наличии'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             `).join('');
         }
-
-        // Show category
-        function showCategory(category) {
+        
+        function filterByCategory(category) {
             currentCategory = category;
-            displayProducts();
             
-            // Update section title
+            const titleElement = document.getElementById('products-title');
             const titles = {
-                'games': '🎮 Ігри',
-                'accounts': '👤 Акаунти',
-                'all': 'Популярні товари'
+                all: 'Популярные Товары',
+                games: 'Игры',
+                accounts: 'Аккаунты'
             };
-            document.querySelector('.section-title').textContent = titles[category] || titles.all;
+            titleElement.textContent = titles[category];
+
+            document.querySelectorAll('.category-card, .filter-btn').forEach(el => el.classList.remove('active'));
+            if (category === 'all') {
+                document.getElementById('btn-all').classList.add('active');
+            } else {
+                document.getElementById(`cat-${category}`).classList.add('active');
+            }
+
+            renderProducts();
         }
 
-        // Search products
         function searchProducts(term) {
             searchTerm = term;
-            displayProducts();
+            renderProducts();
         }
 
-        // Add to cart
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product || !product.inStock) return;
-
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity += 1;
+            
+            const cartItem = cart.find(item => item.id === productId);
+            if (cartItem) {
+                cartItem.quantity++;
             } else {
-                cart.push({...product, quantity: 1});
+                cart.push({ ...product, quantity: 1 });
             }
-
-            updateCartUI();
-            showSuccessMessage(`${product.name} додано до кошика!`);
+            updateCart();
+            showNotification(`${product.name} добавлен в корзину!`);
         }
 
-        // Remove from cart
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-            displayCart();
+            updateCart();
         }
 
-        // Update quantity
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    updateCartUI();
-                    displayCart();
-                }
-            }
-        }
-
-        // Update cart UI
-        function updateCartUI() {
-            const cartCount = document.getElementById('cartCount');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
-        }
-
-        // Toggle cart modal
-        function toggleCart() {
-            const modal = document.getElementById('cartModal');
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-            } else {
-                modal.style.display = 'block';
-                displayCart();
-            }
-        }
-
-        // Display cart items
-        function displayCart() {
+        function updateCart() {
             const cartItems = document.getElementById('cartItems');
-            const cartTotal = document.getElementById('cartTotal');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const cartCount = document.getElementById('cartCount');
 
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<p style="text-align: center; color: #666;">Кошик порожній</p>';
-                cartTotal.textContent = 'Всього: $0.00';
-                return;
-            }
-
-            cartItems.innerHTML = cart.map(item => `
-                <div class="cart-item">
+            cartItems.innerHTML = cart.length === 0 
+                ? '<p>Корзина пуста</p>' 
+                : cart.map(item => `
                     <div>
-                        <strong>${item.name}</strong><br>
-                        <small>$${item.price.toFixed(2)} за штуку</small>
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)} 
+                            <i class="fas fa-trash-alt" style="color: #e74c3c; cursor: pointer; margin-left: 10px;" onclick="removeFromCart(${item.id})"></i>
+                        </span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <button onclick="updateQuantity(${item.id}, -1)" 
-                                style="background: #e74c3c; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">-</button>
-                        <span>${item.quantity}</span>
-                        <button onclick="updateQuantity(${item.id}, 1)" 
-                                style="background: #27ae60; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">+</button>
-                        <button onclick="removeFromCart(${item.id})" 
-                                style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.textContent = `Всього: $${total.toFixed(2)}`;
+                `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            cartTotalEl.textContent = `Итого: $${total.toFixed(2)}`;
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
         }
 
-        // Checkout
+        function toggleModal(modalId) {
+            document.getElementById(modalId).classList.toggle('show');
+        }
+
         function checkout() {
             if (cart.length === 0) {
-                alert('Кошик порожній!');
+                alert('Ваша корзина пуста!');
                 return;
             }
-
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const orderSummary = cart.map(item => 
-                `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`
-            ).join('\n');
-
-            if (confirm(`Підтвердити замовлення на суму $${total.toFixed(2)}?\n\n${orderSummary}`)) {
-                // Here you would normally send the order to your backend
-                showSuccessMessage('Замовлення успішно оформлено! Ми зв\'яжемося з вами найближчим часом.');
-                cart = [];
-                updateCartUI();
-                toggleCart();
-            }
+            alert('Заказ успешно оформлен! Благодарим за покупку! (Это демонстрация, реальная обработка заказа требует бэкенда)');
+            cart = [];
+            updateCart();
+            toggleModal('cartModal');
         }
 
-        // Show success message
-        function showSuccessMessage(message) {
-            const successMsg = document.getElementById('successMessage');
-            successMsg.textContent = message;
-            successMsg.classList.add('show');
-            
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, var(--primary-dark), var(--secondary-accent));
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.95rem;
+                z-index: 1002;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
             setTimeout(() => {
-                successMsg.classList.remove('show');
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+                notification.addEventListener('transitionend', () => notification.remove());
             }, 3000);
         }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCart(); // Initialize cart display
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('cartModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', init);
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
     </script>
 </body>
 </html>
